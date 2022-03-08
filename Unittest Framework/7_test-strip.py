@@ -1,6 +1,6 @@
 import unittest
  
- # run: python -m unittest 7_test-strip.py
+# run: python -m unittest 7_test-strip.py
 class TestLstripMethod(unittest.TestCase):
  
     def test_lstrip_newline(self):

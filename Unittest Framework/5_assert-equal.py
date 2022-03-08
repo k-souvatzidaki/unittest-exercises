@@ -16,6 +16,7 @@ class TestJoinMethod(unittest.TestCase):
 
     def test_join_with_space(self):
         self.assertEqual(' '.join(['Python', '3.8']), 'Python 3.8')
+        self.assertNotEqual(' '.join(['Python', '3.8']), 'Python3.8') # !!
  
     def test_join_with_comma(self):
         self.assertEqual(','.join(['open', 'high', 'low', 'close']), 'open,high,low,close')
