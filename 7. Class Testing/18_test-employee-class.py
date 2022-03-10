@@ -11,6 +11,9 @@ class Employee:
         self.age = age
         self.salary = salary
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
     @property
     def email(self):
         return f'{self.first_name.lower()}.{self.last_name.lower()}@mail.com'
@@ -46,3 +49,7 @@ class TestEmployee(unittest.TestCase):
     def test_apply_bonus(self):
         self.emp.apply_bonus()
         self.assertEqual(self.emp.salary,88000)
+
+    def test_employee_has_email_property(self):
+        self.assertTrue(hasattr(Employee,'email'))
+        self.assertIsInstance(Employee.email,property)
