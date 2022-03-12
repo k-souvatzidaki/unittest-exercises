@@ -1,7 +1,7 @@
 import random
 from unittest.mock import Mock,patch
+import unittest
 
-# run: python -m unittest 24_programmer-class-mock.py
 class Programmer:
 
     def __init__(self):
@@ -17,6 +17,9 @@ class Programmer:
     def get_random_tech(self):
         return random.choice(self.tech_names)
 
+    def display_random_tech(self):
+        return f'Technology name: {self.get_random_tech()}'
+
 programmer = Programmer().add_tech('python') \
     .add_tech('java') \
     .add_tech('sql') \
@@ -26,6 +29,7 @@ programmer = Programmer().add_tech('python') \
 # mock random method
 random.choice = Mock(return_value='python')
 print(programmer.get_random_tech())
+
 
 with patch('random.choice') as mock_random:
     mock_random.return_value = 'sql'
@@ -37,4 +41,33 @@ def test_get_random_tech(mock_random):
     mock_random.return_value = 'c++'
     return programmer.get_random_tech() # not: Programmer
 
-print(test_get_random_tech())
+
+class TestProgrammer(unittest.TestCase):
+
+    @classmethod
+    def setUp(this):
+        this.programmer = Programmer().add_tech('python') \
+            .add_tech('java') \
+            .add_tech('sql') \
+            .add_tech('aws') \
+            .add_tech('django')
+
+    @patch.object(Programmer, 'get_random_tech')
+    def test_get_random_tech_mocked_python(self, mock_tech):
+        mock_tech.return_value = 'python'
+        self.assertEqual(self.programmer.get_random_tech(), 'python')
+
+    @patch.object(Programmer, 'get_random_tech')
+    def test_get_random_tech_mocked_cpp(self, mock_tech):
+        mock_tech.return_value = 'c ++'
+        self.assertEqual(self.programmer.get_random_tech(), 'c ++')
+
+    @patch.object(Programmer, 'get_random_tech')
+    def test_display_random_tech_mocked_python(self, mock_tech):
+        mock_tech.return_value = 'python'
+        self.assertEqual(self.programmer.display_random_tech(), 'Technology name: python')
+
+    @patch.object(Programmer, 'get_random_tech')
+    def test_display_random_tech_mocked_cpp(self, mock_tech):
+        mock_tech.return_value = 'c ++'
+        self.assertEqual(self.programmer.display_random_tech(), 'Technology name: c ++')
