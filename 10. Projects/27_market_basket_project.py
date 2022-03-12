@@ -15,3 +15,6 @@ class TestProduct(unittest.TestCase):
 
     def test_get_quantity(self):
         self.assertEqual(self.product.quantity, 1)
+
+    def test_repr_method(self):
+        self.assertEqual(repr(self.product), "Product(name='milk', price=3.0, quantity=1)")
